@@ -1,3 +1,3 @@
 [submodule "src/qtkeychain"]
 	path = src/qtkeychain
-	url = https://github.com/frankosterfeld/qtkeychain.git
+	url = git@github.com:borco/qtkeychain.git
