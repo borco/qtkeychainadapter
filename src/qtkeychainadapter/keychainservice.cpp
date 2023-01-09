@@ -19,7 +19,7 @@ void KeyChainService::readKey(const QString &key)
 
     connect(read_job, &QKeychain::ReadPasswordJob::finished, this, [=]() {
         if (read_job->error()) {
-            emit error(tr("Read key failed: %1").arg(qPrintable(read_job->errorString())));
+            emit error("Failed to read key: " + read_job->errorString());
             return;
         }
         emit keyRestored(key, read_job->textData());
@@ -35,10 +35,10 @@ void KeyChainService::writeKey(const QString &key, const QString &value)
 
     connect(write_job, &QKeychain::WritePasswordJob::finished, this, [=](){
         if (write_job->error()) {
-            emit error(tr("Write key failed: %1").arg(qPrintable(write_job->errorString())));
+            emit error("Failed to write key: " + write_job->errorString());
             return;
         }
-        qDebug().nospace() << this << "::writeKey: key " << key << " written";
+        qDebug().nospace() << "KeyChainService: key stored: " << key;
         emit keyStored(key);
     });
 
@@ -53,7 +53,7 @@ void KeyChainService::deleteKey(const QString &key)
 
     connect(delete_job, &QKeychain::DeletePasswordJob::finished, this, [=]() {
         if (delete_job->error()) {
-            emit error(tr("Delete key failed: %1").arg(qPrintable(delete_job->errorString())));
+            emit error("Failed to delete key: " + delete_job->errorString());
             return;
         }
         emit keyDeleted(key);
